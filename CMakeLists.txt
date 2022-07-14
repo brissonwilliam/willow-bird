@@ -28,7 +28,7 @@ add_executable (willow-bird
 	"src/ui/window.h"
 	"src/ui/window.cpp"
 	"src/engine/renderer.cpp"
-	"src/engine/renderer.h" "src/main.h")
+	"src/engine/renderer.h")
 
 target_link_libraries(willow-bird "glfw3.lib")
 target_link_libraries(willow-bird OpenGL::GL)

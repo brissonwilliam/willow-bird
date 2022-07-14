@@ -16,7 +16,7 @@ public:
 	void render(GLFWwindow* window);
 	void SetVsync(bool v);
 private:
-	int r =0 , g=100, b=200;
+	int rPos =0 , gPos=100, bPos=200;
 	int swapInterval = 1;
 
 	FPSCounter fpsCounter;
