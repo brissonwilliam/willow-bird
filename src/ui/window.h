@@ -3,17 +3,19 @@
 #include "../glfw/glfw3.h"
 #include "../controls/keys.h"
 #include "../engine/renderer.h"
+#include "../config/options.h"
 
 #define WINDOW_WINDOWED NULL
 
 class Window {
 public:
-	int Create(int width, int height, const char* title, GLFWmonitor* monitor);
+	int Create(const char* title, GLFWmonitor* monitor);
 	void StartRenderLoop();
-	Window(Renderer r);
+	Window(Renderer* r, GameOptions* opts);
 
 private:
 	GLFWwindow* glWindow;
-	Renderer renderer;
+	Renderer* renderer;
+	GameOptions* gameOpts;
 };
 

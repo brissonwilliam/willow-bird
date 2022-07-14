@@ -13,31 +13,28 @@ void Renderer::render(GLFWwindow* window) {
 	glClear(GL_COLOR_BUFFER_BIT);
 	glClearColor(0.360, 0.933, 0.941, 1.0);
 	
-	
 	glfwSwapBuffers(window);
 	
 	// update fps
 	fpsCounter.Inc();
+
+	// 
 }
 
 void Renderer::SetVsync(bool enable) {
-	#ifdef _WIN32
-		glfwSwapInterval(enable ? 1: 0);
-	#endif
-	
+	glfwSwapInterval(enable ? 1: 0);
 }
 
 void FPSCounter::Inc() {
-	double currentTime = glfwGetTime();
+	double currentTime = glfwGetTime(); // time in seconds (float)
 	frameCount++;
 
 	const float intervalSec = 0.25;
-	double delta = currentTime - lastFpsUpdateTime;
-	if (delta >= intervalSec)
-	{
-		int fps = frameCount / delta;
+	double secondsSinceLastUpdate = currentTime - lastFpsUpdateTime;
+	if (secondsSinceLastUpdate >= intervalSec) {
+		double fps = frameCount / secondsSinceLastUpdate;
 
-		std::cout << "\r" << fps << "FPS "<< std::flush;
+		std::cout << "\r" << int(fps) << "FPS "<< std::flush;
 
 		frameCount = 0;
 		lastFpsUpdateTime = currentTime;

@@ -12,17 +12,20 @@ include_directories("src/glfw")
 include_directories("src/controls")
 include_directories("src/ui")
 include_directories("src/engine")
+include_directories("src/config")
 link_directories("src/glfw")
 link_directories("src/controls")
 link_directories("src/ui")
 link_directories("src/engine")
+link_directories("src/config")
 
 # Add source to this project's executable.
 add_executable (willow-bird 
 	"src/main.cpp"	
-	"src/main.h"	
+	"src/main.h"
 	"src/game.cpp"
 	"src/game.h"
+	"src/config/options.h"	
 	"src/controls/keys.cpp"
 	"src/controls/keys.h"
 	"src/ui/window.h"

@@ -6,7 +6,7 @@ void error_callback(int error, const char* description) {
 	fprintf(stderr, "Error: %s\n", description);
 }
 
-int Game::Start(GameStartArgs args) {
+int Game::Start(GameOptions args) {
 	// init gl
 	if (!glfwInit()) {
 		std::cout << "Could not init through glfwInit()\n";
@@ -19,9 +19,9 @@ int Game::Start(GameStartArgs args) {
 	Renderer renderer = Renderer();
 
 	// init window
-	Window w = Window(renderer);
+	Window w = Window(&renderer, &args);
 
-	int createResult = w.Create(args.width, args.height, "reeeee", WINDOW_WINDOWED);
+	int createResult = w.Create("my game yahoo!", WINDOW_WINDOWED);
 	if (createResult < 0) {
 		return createResult;
 	}

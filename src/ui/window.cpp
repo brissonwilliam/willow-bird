@@ -1,13 +1,13 @@
 #include "window.h"
 
-
-Window::Window(Renderer r) {
+Window::Window(Renderer* r, GameOptions* opts) {
 	renderer = r;
+	gameOpts = opts;
 }
 
 // Create sets up a new GLFWwindow
-int Window::Create(int width, int height, const char * title, GLFWmonitor* monitor) {	
-	this->glWindow = glfwCreateWindow(width, height, title, monitor, NULL);
+int Window::Create(const char * title, GLFWmonitor* monitor) {	
+	this->glWindow = glfwCreateWindow(gameOpts->width, gameOpts->height, title, monitor, NULL);
 	if (glWindow == NULL) {
 		std::cout << "Could not init window\n";
 		return -1;
@@ -21,10 +21,10 @@ int Window::Create(int width, int height, const char * title, GLFWmonitor* monit
 // StartRenderLoop calls the renderer in a loop. This a blocking call.
 // Ends when glfwWindowShouldClose() is called.
 void Window::StartRenderLoop() {
-	renderer.SetVsync(true);
+	renderer->SetVsync(gameOpts->vsync);
 
 	while (!glfwWindowShouldClose(this->glWindow)) {
-		renderer.render(glWindow);
+		renderer->render(glWindow);
 		glfwPollEvents();
 	}
 
