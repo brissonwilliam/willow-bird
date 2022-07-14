@@ -16,7 +16,7 @@ int Game::Start(GameOptions args) {
 	glfwSetErrorCallback(error_callback);
 
 	// init renderer
-	Renderer renderer = Renderer();
+	Renderer renderer = Renderer(&args);
 
 	// init window
 	Window w = Window(&renderer, &args);

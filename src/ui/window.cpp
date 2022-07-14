@@ -21,12 +21,7 @@ int Window::Create(const char * title, GLFWmonitor* monitor) {
 // StartRenderLoop calls the renderer in a loop. This a blocking call.
 // Ends when glfwWindowShouldClose() is called.
 void Window::StartRenderLoop() {
-	renderer->SetVsync(gameOpts->vsync);
-
-	while (!glfwWindowShouldClose(this->glWindow)) {
-		renderer->render(glWindow);
-		glfwPollEvents();
-	}
+	renderer->Start(this->glWindow);
 
 	/* free the window and context */
 	glfwDestroyWindow(this->glWindow);
