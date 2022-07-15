@@ -1,4 +1,4 @@
-#include "keys.h"
+#include "inputs.h"
 
 void Keys::keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {

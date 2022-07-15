@@ -1,7 +1,7 @@
 #pragma once
 #include <iostream>
 #include "../glfw/glfw3.h"
-#include "../controls/keys.h"
+#include "../engine/inputs.h"
 #include "../engine/renderer.h"
 #include "../config/options.h"
 

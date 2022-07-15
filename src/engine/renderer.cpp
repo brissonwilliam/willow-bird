@@ -4,39 +4,37 @@ Renderer::Renderer(GameOptions* opts) {
 	this->opts = opts;
 }
 
-void Renderer::Start(GLFWwindow* window) {
-	this->window = window;
-	SetVsync(opts->vsync);
-
-	// initialize gl matrixes
+void initGL() {
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
+}
 
-	// initialize the timers
+void Renderer::Start(GLFWwindow* window) {
+	this->window = window;
 
+	SetVsync(opts->vsync);
+	initGL();
 
-	// game loop
+	// main game loop
 	while (!glfwWindowShouldClose(window)) {
-		// inputs are processed by GLFW window, which calls our own callback in keys.cpp
+		// inputs are processed by GLFW window, which calls our own callback in inputs.cpp
 
 		//TODO: update(elapsedTime) updates the gamestate with constant time
 
-		nextFrame();
+		renderFrame();
 
 		// TODO: wait for next frame if limited fps
 
 		glfwPollEvents();
-
-
 	}
 
 }
 
 
-void Renderer::nextFrame() {
+void Renderer::renderFrame() {
 	glClear(GL_COLOR_BUFFER_BIT);
 	glClearColor(0.360, 0.933, 0.941, 1.0);
 	

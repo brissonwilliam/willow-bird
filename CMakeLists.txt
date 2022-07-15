@@ -8,16 +8,18 @@ project ("willow-bird")
 # glfw instructions 
 find_package(OpenGL REQUIRED)
 
-include_directories("src/glfw")
-include_directories("src/controls")
-include_directories("src/ui")
-include_directories("src/engine")
-include_directories("src/config")
-link_directories("src/glfw")
-link_directories("src/controls")
-link_directories("src/ui")
-link_directories("src/engine")
-link_directories("src/config")
+include_directories(
+	"src/glfw"
+	"src/ui"
+	"src/engine"
+	"src/config"
+)
+link_directories(
+	"src/glfw"
+	"src/ui"
+	"src/engine"
+	"src/config"
+)
 
 # Add source to this project's executable.
 add_executable (willow-bird 
@@ -26,8 +28,8 @@ add_executable (willow-bird
 	"src/game.cpp"
 	"src/game.h"
 	"src/config/options.h"	
-	"src/controls/keys.cpp"
-	"src/controls/keys.h"
+	"src/engine/inputs.cpp"
+	"src/engine/inputs.h"
 	"src/ui/window.h"
 	"src/ui/window.cpp"
 	"src/engine/renderer.cpp"

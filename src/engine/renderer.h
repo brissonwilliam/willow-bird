@@ -20,7 +20,7 @@ public:
 	void Start(GLFWwindow* window);
 
 private:
-	void nextFrame();
+	void renderFrame();
 
 	int rPos =0 , gPos=100, bPos=200;
 	int swapInterval = 1;
