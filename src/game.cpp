@@ -15,19 +15,22 @@ int Game::Start(GameOptions args) {
 
 	glfwSetErrorCallback(error_callback);
 
-	// init renderer
-	Renderer renderer = Renderer(&args);
-
 	// init window
-	Window w = Window(&renderer, &args);
-
+	Window w = Window(&args);
 	int createResult = w.Create("my game yahoo!", WINDOW_WINDOWED);
 	if (createResult < 0) {
 		return createResult;
 	}
 
-	w.StartRenderLoop();
-	
+	// init inputs
+	glfwSetKeyCallback(w.glWindow, InputState::KeyCallback);
+
+	// init renderer, start the main loop
+	Renderer renderer = Renderer(&args);
+	renderer.StartGameLoop(w.glWindow);
+
+	// terminate cleanly
+	glfwDestroyWindow(w.glWindow);	
 	glfwTerminate();
 
 	return 0;

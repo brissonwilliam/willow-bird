@@ -1,7 +1,6 @@
 #include "window.h"
 
-Window::Window(Renderer* r, GameOptions* opts) {
-	renderer = r;
+Window::Window(GameOptions* opts) {
 	gameOpts = opts;
 }
 
@@ -13,16 +12,6 @@ int Window::Create(const char * title, GLFWmonitor* monitor) {
 		return -1;
 	}
 	glfwMakeContextCurrent(glWindow);
-	glfwSetKeyCallback(glWindow, Keys::keyCallback);
 
 	return 0;
-}
-
-// StartRenderLoop calls the renderer in a loop. This a blocking call.
-// Ends when glfwWindowShouldClose() is called.
-void Window::StartRenderLoop() {
-	renderer->Start(this->glWindow);
-
-	/* free the window and context */
-	glfwDestroyWindow(this->glWindow);
 }

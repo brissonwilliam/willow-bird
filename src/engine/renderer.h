@@ -1,23 +1,16 @@
 #pragma once
 #include "../glfw/glfw3.h"
-#include <iostream>
 #include "../config/options.h"
+#include "./fps.h"
+#include "./inputs.h"
+#include <iostream>
 
-struct FPSCounter {
-public:
-	void Inc();
-	double GetFPS();
-private:
-	double lastFpsUpdateTime;
-	int frameCount;
-	double fps;
-};
 
 class Renderer {
 public:
 	Renderer(GameOptions* opts);
 	void SetVsync(bool v);
-	void Start(GLFWwindow* window);
+	void StartGameLoop(GLFWwindow* window);
 
 private:
 	void renderFrame();
@@ -26,6 +19,7 @@ private:
 	int swapInterval = 1;
 
 	FPSCounter fpsCounter;
+
 	GameOptions* opts;
 	GLFWwindow* window;
 };

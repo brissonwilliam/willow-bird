@@ -6,5 +6,4 @@ struct GameOptions {
 	int height;
 	int monitor;
 	bool vsync;
-	int fpsLimit;
 };

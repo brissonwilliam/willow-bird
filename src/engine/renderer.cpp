@@ -12,27 +12,36 @@ void initGL() {
 	glLoadIdentity();
 }
 
-void Renderer::Start(GLFWwindow* window) {
+void Renderer::StartGameLoop(GLFWwindow* window) {
 	this->window = window;
 
 	SetVsync(opts->vsync);
+
 	initGL();
 
 	// main game loop
 	while (!glfwWindowShouldClose(window)) {
-		// inputs are processed by GLFW window, which calls our own callback in inputs.cpp
+		auto actions = InputState::GetAndFlush();
 
-		//TODO: update(elapsedTime) updates the gamestate with constant time
+		// TODO: send inputs to game state instead
+		// process input actions
+		for (int i = 0; i < actions.size(); i++) {
+			switch (actions.at(i)) {
+				case INPUT_ACTION::QUIT_GAME:
+					glfwSetWindowShouldClose(window, GLFW_TRUE);
+					break;
+			}
+		}
+
+		//TODO: update(elapsedTime) updates the gamestate with constant time. 
+		// Make sure to limit elapsed time to not cause glitches (if game doesn't respond for 1 second for example)
 
 		renderFrame();
-
-		// TODO: wait for next frame if limited fps
 
 		glfwPollEvents();
 	}
 
 }
-
 
 void Renderer::renderFrame() {
 	glClear(GL_COLOR_BUFFER_BIT);
@@ -46,24 +55,4 @@ void Renderer::renderFrame() {
 
 void Renderer::SetVsync(bool enable) {
 	glfwSwapInterval(enable ? 1: 0);
-}
-
-void FPSCounter::Inc() {
-	double currentTime = glfwGetTime(); // time in seconds (float)
-	frameCount++;
-
-	const float intervalSec = 0.25;
-	double secondsSinceLastUpdate = currentTime - lastFpsUpdateTime;
-	if (secondsSinceLastUpdate >= intervalSec) {
-		FPSCounter::fps = frameCount / secondsSinceLastUpdate;
-
-		std::cout << "\r" << int(fps) << "FPS "<< std::flush;
-
-		frameCount = 0;
-		lastFpsUpdateTime = currentTime;
-	}
-}
-
-double FPSCounter::GetFPS() {
-	return fps;
 }

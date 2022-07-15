@@ -28,10 +28,12 @@ add_executable (willow-bird
 	"src/game.cpp"
 	"src/game.h"
 	"src/config/options.h"	
-	"src/engine/inputs.cpp"
-	"src/engine/inputs.h"
 	"src/ui/window.h"
 	"src/ui/window.cpp"
+	"src/engine/fps.cpp"
+	"src/engine/fps.h"
+	"src/engine/inputs.cpp"
+	"src/engine/inputs.h"
 	"src/engine/renderer.cpp"
 	"src/engine/renderer.h")
 
