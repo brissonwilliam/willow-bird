@@ -1,5 +1,5 @@
 #pragma once
-#include "../glfw/glfw3.h"
+#include "glfw3.h"
 #include <iostream>
 
 struct FPSCounter {

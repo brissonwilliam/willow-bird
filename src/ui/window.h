@@ -1,6 +1,6 @@
 #pragma once
 #include <iostream>
-#include "../glfw/glfw3.h"
+#include "glfw3.h"
 #include "../config/options.h"
 
 #define WINDOW_WINDOWED NULL

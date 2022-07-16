@@ -1,6 +1,6 @@
 #pragma once
 #include <vector>
-#include "../glfw/glfw3.h"
+#include "glfw3.h"
 
 // An INPUT_ACTION represents an actionnable in-game concept. Key binds should trigger those actions.
 typedef enum {
