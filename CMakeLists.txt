@@ -11,23 +11,21 @@ find_package(OpenGL REQUIRED)
 include_directories(
 	"src/assets"
 	"src/glfw"
+	"src/glm"
 	"src/ui"
 	"src/engine"
 	"src/config"
 )
+
 link_directories(
-	"src/assets"
-	"src/config"
-	"src/engine"
 	"src/glfw"
-	"src/ui"
 )
 
 # Add source to this project's executable.
-file(GLOB src_assets CONFIGURE_DEPENDS "src/assets/*.h", "src/assets/*.cpp")
-file(GLOB src_config CONFIGURE_DEPENDS "src/config/*.h", "src/config/*.cpp")
-file(GLOB src_engine CONFIGURE_DEPENDS "src/engine/*.h", "src/engine/*.cpp")
-file(GLOB src_ui CONFIGURE_DEPENDS "src/ui/*.h", "src/ui/*.cpp")
+file(GLOB src_assets CONFIGURE_DEPENDS "src/assets/*.h" "src/assets/*.cpp")
+file(GLOB src_config CONFIGURE_DEPENDS "src/config/*.h" "src/config/*.cpp")
+file(GLOB src_engine CONFIGURE_DEPENDS "src/engine/*.h" "src/engine/*.cpp")
+file(GLOB src_ui CONFIGURE_DEPENDS "src/ui/*.h" "src/ui/*.cpp")
 
 add_executable (willow-bird 
 	"src/main.cpp"	
