@@ -25,17 +25,20 @@ link_directories(
 add_executable (willow-bird 
 	"src/main.cpp"	
 	"src/main.h"
-	"src/game.cpp"
-	"src/game.h"
-	"src/config/options.h"	
-	"src/ui/window.h"
-	"src/ui/window.cpp"
 	"src/engine/fps.cpp"
 	"src/engine/fps.h"
 	"src/engine/inputs.cpp"
 	"src/engine/inputs.h"
+	"src/engine/state.cpp"
+	"src/engine/state.h"
 	"src/engine/renderer.cpp"
-	"src/engine/renderer.h")
+	"src/engine/renderer.h"
+	"src/game.cpp"
+	"src/game.h"
+	"src/ui/window.h"
+	"src/ui/window.cpp"
+	"src/config/options.h"	
+)
 
 target_link_libraries(willow-bird "glfw3.lib")
 target_link_libraries(willow-bird OpenGL::GL)

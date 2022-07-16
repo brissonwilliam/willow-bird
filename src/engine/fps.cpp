@@ -7,6 +7,7 @@ void FPSCounter::Inc() {
 	const float intervalSec = 0.25;
 	double secondsSinceLastUpdate = currentTime - lastFpsUpdateTime;
 	if (secondsSinceLastUpdate >= intervalSec) {
+		// tick!, compute fps
 		FPSCounter::fps = frameCount / secondsSinceLastUpdate;
 
 		std::cout << "\r" << int(fps) << "FPS "<< std::flush;
