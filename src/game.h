@@ -1,6 +1,6 @@
 #pragma once
 #include <iostream>
-#include "glfw/glfw3.h"
+#include "../lib/glfw/glfw3.h"
 #include "ui/window.h"
 #include "engine/inputs.h"
 #include "engine/renderer.h"

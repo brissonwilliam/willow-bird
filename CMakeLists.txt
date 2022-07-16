@@ -11,14 +11,16 @@ find_package(OpenGL REQUIRED)
 include_directories(
 	"src/assets"
 	"src/glfw"
-	"src/glm"
+	"lib/glm"
+	"lib/glfw"
 	"src/ui"
 	"src/engine"
 	"src/config"
 )
 
 link_directories(
-	"src/glfw"
+	"lib/glfw"
+	"lib"
 )
 
 # Add source to this project's executable.
@@ -39,6 +41,7 @@ add_executable (willow-bird
 )
 
 target_link_libraries(willow-bird "glfw3.lib")
+target_link_libraries(willow-bird "assimp-vc142-mtd")
 target_link_libraries(willow-bird OpenGL::GL)
 
 # TODO: Add tests and install targets if needed.
