@@ -9,35 +9,35 @@ project ("willow-bird")
 find_package(OpenGL REQUIRED)
 
 include_directories(
+	"src/assets"
 	"src/glfw"
 	"src/ui"
 	"src/engine"
 	"src/config"
 )
 link_directories(
+	"src/assets"
+	"src/config"
+	"src/engine"
 	"src/glfw"
 	"src/ui"
-	"src/engine"
-	"src/config"
 )
 
 # Add source to this project's executable.
+file(GLOB src_assets CONFIGURE_DEPENDS "src/assets/*.h", "src/assets/*.cpp")
+file(GLOB src_config CONFIGURE_DEPENDS "src/config/*.h", "src/config/*.cpp")
+file(GLOB src_engine CONFIGURE_DEPENDS "src/engine/*.h", "src/engine/*.cpp")
+file(GLOB src_ui CONFIGURE_DEPENDS "src/ui/*.h", "src/ui/*.cpp")
+
 add_executable (willow-bird 
 	"src/main.cpp"	
 	"src/main.h"
-	"src/engine/fps.cpp"
-	"src/engine/fps.h"
-	"src/engine/inputs.cpp"
-	"src/engine/inputs.h"
-	"src/engine/state.cpp"
-	"src/engine/state.h"
-	"src/engine/renderer.cpp"
-	"src/engine/renderer.h"
 	"src/game.cpp"
 	"src/game.h"
-	"src/ui/window.h"
-	"src/ui/window.cpp"
-	"src/config/options.h"	
+	${src_assets}
+	${src_config}
+	${src_engine}
+	${src_ui}
 )
 
 target_link_libraries(willow-bird "glfw3.lib")

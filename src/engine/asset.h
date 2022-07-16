@@ -1,15 +1,14 @@
 #pragma once
 #include "../glfw/glfw3.h"
-
-struct AssetAttributes {
-    Position pos;
-    Rotation rot;
-};
+#include "../glfw/glfw3native.h"
+#include <vector>
 
 struct Position {
-    double x;
-    double y;
-    double z;
+    double x,y,z;
+};
+
+struct Scale {
+    double x, y, z;
 };
 
 struct Rotation {
@@ -18,31 +17,58 @@ struct Rotation {
     double degZ;
 };
 
+struct Velocity {
+   double mPerSX;
+   double mPerSY;
+   double mPerSZ;
+};
+
+struct RotVelocity {
+   double degPerSX;
+   double degPerSY;
+   double degPerSZ;
+};
+
+struct AssetAttributes {
+    Position pos;
+    Scale scale;
+    Rotation rot;
+};
+
+struct DynamicAssetAttributes : AssetAttributes {
+    Velocity v;
+    RotVelocity rotV;
+};
+
 class StaticAsset {
     public:
+        void SpawnNew(AssetAttributes a);
+
         Position GetPosition();
         void SetPosition(Position newPos);
         
         Rotation GetRotation();
-        void SetRotation();
+        void SetRotation(Rotation newRot);
+
+        virtual void Load();
 
     private:
         AssetAttributes attributes;
+
 };
 
 class Asset: public StaticAsset {
     public:
-        Asset WithTime(double t);
         void Translate(double x, double y, double z);
         void Rotate(double degX, double degY, double degZ);
-
-    private:
-        double deltaTime; // time to apply for constant velocity or physics (not frame dependant). Omitted if 0
 };
 
 class DynamicAsset: public Asset {
     public:
-        void SetVelocity();
-        void SetRotVelocity();
+        Velocity GetVelocity();
+        void SetVelocity(Velocity v);
+
+        RotVelocity GetRotVelocity();
+        void SetRotVelocity(RotVelocity v);
     private:
 };
