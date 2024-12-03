@@ -1,5 +1,5 @@
 #pragma once
-#include "glfw3.h"
+#include <GLFW/glfw3.h>
 #include "../config/options.h"
 #include "fps.h"
 #include "inputs.h"

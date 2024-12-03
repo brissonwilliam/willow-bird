@@ -1,7 +1,7 @@
 ﻿# CMakeList.txt : CMake project for willow-bird, include source and define
 # project specific logic here.
 #
-cmake_minimum_required (VERSION 3.8)
+cmake_minimum_required (VERSION 3.11)
 
 project ("willow-bird")
 
@@ -12,8 +12,6 @@ include_directories(
 	"lib/glm"
 	"lib/glfw"
 )
-
-include_directories(BEFORE SYSTEM "lib/assimp/include")
 
 link_directories(
 	"lib/glfw"
@@ -37,8 +35,7 @@ add_executable (willow-bird
 	${src_ui}
 )
 
-target_link_libraries(willow-bird "glfw3.lib")
-target_link_libraries(willow-bird "assimp-vc142-mtd.lib")
-target_link_libraries(willow-bird OpenGL::GL)
+# todo: if windows, load .lib instead
+target_link_libraries(willow-bird glfw)
 
-# TODO: Add tests and install targets if needed.
+target_link_libraries(willow-bird OpenGL::GL)

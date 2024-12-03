@@ -1,7 +1,7 @@
 #pragma once
-#include "../engine/asset.h"
 #include "paths.h"
-#include "glfw3.h"
+#include "../engine/asset.h"
+#include <GLFW/glfw3.h>
 
 class Teapot : Asset {
 public:
