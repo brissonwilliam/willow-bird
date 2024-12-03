@@ -3,7 +3,7 @@
 #include "../engine/asset.h"
 #include <GLFW/glfw3.h>
 
-class Teapot : Asset {
+class Teapot : public DynamicAsset {
 public:
-    void Load();
+    void Load() override;
 };

@@ -3,6 +3,6 @@
 set -e
 
 mkdir -p ./build
-cmake -S . -B build
-cmake --build build --config Release
+cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug
+cmake --build build 
 ./build/willow-bird

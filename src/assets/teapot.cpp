@@ -1,5 +1,5 @@
 #include "teapot.h"
 
-void Teapot::Load() {
+void Teapot::Load()  {
 
 }

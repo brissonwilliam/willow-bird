@@ -62,6 +62,8 @@ int Game::Start(GameOptions args) {
 		glfwPollEvents();
 	}
 
+    std::cout << "\nOut of main loop, goodbye!";
+
 	// terminate cleanly
 	glfwDestroyWindow(w.glWindow);	
 	glfwTerminate();

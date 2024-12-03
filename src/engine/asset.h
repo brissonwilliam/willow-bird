@@ -48,9 +48,9 @@ class StaticAsset {
         Rotation GetRotation();
         void SetRotation(Rotation newRot);
 
-        virtual void Load() {}
+        virtual void Load() = 0;
 
-    private:
+    protected:
         AssetAttributes attributes;
 
 };
@@ -63,10 +63,10 @@ class Asset: public StaticAsset {
 
 class DynamicAsset: public Asset {
     public:
-        Velocity GetVelocity();
-        void SetVelocity(Velocity v);
-
-        RotVelocity GetRotVelocity();
-        void SetRotVelocity(RotVelocity v);
+        void Update();
+        void SetVelocity(double x, double y, double z);
+        Velocity vel;
+        RotVelocity rotVel;
     private:
+
 };

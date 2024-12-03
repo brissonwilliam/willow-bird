@@ -8,13 +8,17 @@ typedef enum {
 	MOVE_DOWN,
 	MOVE_LEFT,
 	MOVE_RIGHT,
+	MOVE_UP_RELEASE,
+	MOVE_DOWN_RELEASE,
+	MOVE_LEFT_RELEASE,
+	MOVE_RIGHT_RELEASE,
 	BOOST,
 	QUIT_GAME
 } INPUT_ACTION;
 
 class InputState {
 public:
-	static	void Push(INPUT_ACTION i);
+	static void Push(INPUT_ACTION i);
 	static std::vector<INPUT_ACTION> GetAndFlush();
 
 	static void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);

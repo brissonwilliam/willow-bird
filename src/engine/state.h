@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include "inputs.h"
+#include "../assets/teapot.h"
 
 class GameState {
 public:
@@ -10,6 +11,10 @@ public:
     void AdjustForNextFrame(double updatePercent);
 
     GLFWwindow* window;
+    Teapot player;
+
 private:
-    void update(double multiplier = 1.0);
+    void update(double multiplier);
+
+    std::vector<INPUT_ACTION> inputs;
 };

@@ -9,7 +9,7 @@ int main() {
 	GameOptions opts; 
 	opts.width = 1280;
 	opts.height = 720;
-	opts.vsync = false;
+	opts.vsync = true;
 
 	int exit = g.Start(opts);
 
