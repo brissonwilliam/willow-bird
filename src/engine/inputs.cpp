@@ -1,7 +1,8 @@
 #include "inputs.h"
-#include <queue>
+#include <vector>
+#include <algorithm>
 
-std::queue<INPUT_ACTION> actions;
+std::vector<INPUT_ACTION> actions;
 
 void InputState::KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods) {
 	if (action == GLFW_PRESS) {
@@ -18,9 +19,6 @@ void InputState::KeyCallback(GLFWwindow* window, int key, int scancode, int acti
 			case GLFW_KEY_S:
 				InputState::Push(MOVE_DOWN);
 				break;
-			case GLFW_KEY_ESCAPE:
-				InputState::Push(QUIT_GAME);
-				break;
 		}
 	} else if (action == GLFW_RELEASE) {
 		switch (key) {
@@ -36,25 +34,23 @@ void InputState::KeyCallback(GLFWwindow* window, int key, int scancode, int acti
 			case GLFW_KEY_S:
 				InputState::Push(MOVE_DOWN_RELEASE);
 				break;
+			case GLFW_KEY_ESCAPE:
+				InputState::Push(QUIT_GAME);
+				break;
         }
-
     }
+
 
 }
 
 void InputState::Push(INPUT_ACTION i) {
-	actions.push(i);
+	actions.push_back(i);
 }
 
 std::vector<INPUT_ACTION> InputState::GetAndFlush() {
-    auto count = actions.size(); // take a snapshot of nb of actions we can read
+    // actions becomes the empty vector, and we return the full actions vector
+    auto ret = std::vector<INPUT_ACTION>{};
+    actions.swap(ret);
 
-    std::vector<INPUT_ACTION> ret;
-    ret.reserve(count);
-
-    for (int i =0; i < count; i++) {
-        ret.push_back(actions.front());
-        actions.pop();
-    }
 	return ret;
 }

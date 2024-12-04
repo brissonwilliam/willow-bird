@@ -19,14 +19,26 @@ Renderer::Renderer(GameOptions* opts, GLFWwindow* window, GameState* gs) {
 
 void Renderer::RenderFrame() {
 	glClear(GL_COLOR_BUFFER_BIT);
-	glClearColor(0.360, 0.933, 0.941, 1.0);
+	glClearColor(0.1, 0.1, 0.1, 1.0);
 
-    glBegin(GL_QUADS); // Start drawing a line primitive  
     auto pos = gs->player.GetPosition();
-    glVertex2f(-0.5f + pos.x, -0.5f + pos.y); // The bottom left corner  
-    glVertex2f(-0.5f + pos.x, 0.5f + pos.y); // The top left corner  
-    glVertex2f(0.5f + pos.x, 0.5f + pos.y); // The top right corner  
-    glVertex2f(0.5f + pos.x, -0.5f + pos.y); // The bottom right corner
+
+    const GLfloat playerSize = 0.4000;
+    glBegin(GL_TRIANGLE_FAN); // Start drawing a line primitive  
+        glColor3d(1, 1, 1);
+		glVertex2f(0 + pos.x, 0 + pos.y);
+
+		glColor3d(0, 1, 0);
+		glVertex2f(0 + pos.x, playerSize + pos.y);
+
+		glColor3d(1, 0, 0);
+		glVertex2f(-playerSize + pos.x, -playerSize + pos.y);
+
+		glColor3d(0, 0, 1);
+		glVertex2f(playerSize + pos.x, -playerSize + pos.y);
+
+		glColor3d(0, 1, 0);
+		glVertex2f(0 + pos.x, playerSize + pos.y);
     glEnd();
 	
 	

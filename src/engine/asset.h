@@ -16,9 +16,9 @@ struct Rotation {
 };
 
 struct Velocity {
-   double mPerSX;
-   double mPerSY;
-   double mPerSZ;
+   double x;
+   double y;
+   double z;
 };
 
 struct RotVelocity {
@@ -31,9 +31,7 @@ struct AssetAttributes {
     Position pos;
     Scale scale;
     Rotation rot;
-};
-
-struct DynamicAssetAttributes : AssetAttributes {
+    Velocity maxV;
     Velocity v;
     RotVelocity rotV;
 };
@@ -50,9 +48,7 @@ class StaticAsset {
 
         virtual void Load() = 0;
 
-    protected:
-        AssetAttributes attributes;
-
+        AssetAttributes att;
 };
 
 class Asset: public StaticAsset {
@@ -64,9 +60,16 @@ class Asset: public StaticAsset {
 class DynamicAsset: public Asset {
     public:
         void Update();
-        void SetVelocity(double x, double y, double z);
-        Velocity vel;
-        RotVelocity rotVel;
-    private:
 
+        Velocity GetVelocity();
+
+        void AddVelocity(double x, double y, double z);
+        void AddXVelocity(double n);
+        void AddYVelocity(double n);
+        void AddZVelocity(double n);
+
+        void SetVelocity(double x, double y, double z);
+        void SetXVelocity(double n);
+        void SetYVelocity(double n);
+        void SetZVelocity(double n);
 };

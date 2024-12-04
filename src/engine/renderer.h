@@ -2,7 +2,6 @@
 #include <GLFW/glfw3.h>
 #include "../config/options.h"
 #include "fps.h"
-#include "inputs.h"
 #include "state.h"
 #include <iostream>
 
