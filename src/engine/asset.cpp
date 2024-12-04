@@ -1,4 +1,5 @@
 #include "asset.h"
+#include "../../lib/glm/glm.hpp"
 
 Position StaticAsset::GetPosition() {
     return this->att.pos;
@@ -18,10 +19,26 @@ Velocity DynamicAsset::GetVelocity() {
     return this->att.v;
 }
 
-void DynamicAsset::AddVelocity(double x, double y, double z) {
+Velocity DynamicAsset::GetVelocityNormalized() {
+    // x^2 + y^2 = hypothenus^2
+    // signs will be lost when doing math operations, so keep track of signs
+    auto x = this->att.v.x;
+    auto xSign = x < 0.0 ? -1 : 1;
+    auto y = this->att.v.y;
+    auto ySign = y < 0.0 ? -1 : 1;
+    auto hSquared = x*x + y*y;
+
+    auto newX = glm::sqrt(hSquared - (y * y));
+    auto newY = glm::sqrt(hSquared - (x * x));
+
+    return Velocity{newX * xSign, newY * ySign, this->att.v.z};
+}
+
+void DynamicAsset::AddVelocityNormalized(double x, double y, double z) {
     this->AddXVelocity(x);
     this->AddYVelocity(y);
     this->AddZVelocity(z);
+    this->att.v = this->GetVelocityNormalized();
 }
 
 void DynamicAsset::AddXVelocity(double n) {
@@ -67,10 +84,6 @@ void DynamicAsset::SetYVelocity(double n) {
 
 void DynamicAsset::SetZVelocity(double n) {
     this->att.v.z = n;
-}
-
-void DynamicAsset::Update() {
-    this->Translate(this->att.v.x, this->att.v.y, this->att.v.z);
 }
 
 

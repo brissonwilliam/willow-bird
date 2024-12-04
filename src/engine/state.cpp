@@ -6,45 +6,73 @@ GameState::GameState(GLFWwindow* window){
 }
 
 void GameState::ProcessInputs(std::vector<INPUT_ACTION> inputs) {
-    auto playerVelX = player.att.maxV.x;
+    auto playerSpeed = player.att.maxV.x;
 
     for (int i = 0; i < inputs.size(); i++) {
         switch (inputs.at(i)) {
-            case INPUT_ACTION::MOVE_RIGHT:
-                std::cout << "received MOVE_RIGHT\n";
+            case INPUT_ACTION::MOVE_UP:
+                player.AddYVelocity(playerSpeed);
+                player.upPressed = true;
 
-                player.AddXVelocity(player.att.maxV.x);
+                break;
+            case INPUT_ACTION::MOVE_UP_RELEASE:
+                player.upPressed = false;
+                if (!player.downPressed) {
+                    // instead of Adding the inverse velocity to nullify, avoid precision errors, hard set to 0
+                    player.SetYVelocity(0);
+                } else {
+                    // re-apply the velocity of key being held
+                    player.AddYVelocity(-playerSpeed);
+                }
+
+                break;
+            case INPUT_ACTION::MOVE_DOWN:
+                player.AddYVelocity(-playerSpeed);
+                player.downPressed = true;
+
+                break;
+            case INPUT_ACTION::MOVE_DOWN_RELEASE:
+                player.downPressed = false;
+                if (!player.upPressed) {
+                    // instead of Adding the inverse velocity to nullify, avoid precision errors, hard set to 0
+                    player.SetYVelocity(0);
+                } else {
+                    // re-apply the velocity of key being held
+                    player.AddYVelocity(playerSpeed);
+                }
+
+                break;
+            case INPUT_ACTION::MOVE_RIGHT:
+                player.AddXVelocity(playerSpeed);
                 player.rightPressed = true;
+
                 break;
             case INPUT_ACTION::MOVE_RIGHT_RELEASE:
-                std::cout << "received MOVE_RIGHT\n";
-
                 player.rightPressed = false;
                 if (!player.leftPressed) {
                     // instead of Adding the inverse velocity to nullify, avoid precision errors, hard set to 0
                     player.SetXVelocity(0);
                 } else {
                     // re-apply the velocity of key being held
-                    player.SetXVelocity(-playerVelX);
+                    player.AddXVelocity(-playerSpeed);
                 }
+
                 break;
             case INPUT_ACTION::MOVE_LEFT:
-                std::cout << "received MOVE_LEFT\n";
-
-                player.AddXVelocity(-playerVelX);
+                player.AddXVelocity(-playerSpeed);
                 player.leftPressed = true;
+
                 break;
             case INPUT_ACTION::MOVE_LEFT_RELEASE:
-                std::cout << "received MOVE_LEFT_RELEASE\n";
-
                 player.leftPressed = false;
                 if (!player.rightPressed) {
                     // instead of Adding the inverse velocity to nullify, avoid precision errors, hard set to 0
                     player.SetXVelocity(0);
                 } else {
                     // re-apply the velocity of key being held
-                    player.SetXVelocity(playerVelX);
+                    player.AddXVelocity(playerSpeed);
                 }
+
                 break;
             case INPUT_ACTION::QUIT_GAME:
                 glfwSetWindowShouldClose(window, GLFW_TRUE);
@@ -54,5 +82,5 @@ void GameState::ProcessInputs(std::vector<INPUT_ACTION> inputs) {
 }
 
 void GameState::Update(double updatePercent) {
-    this->player.Update();
+    this->player.Update(updatePercent);
 }

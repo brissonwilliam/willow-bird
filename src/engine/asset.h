@@ -59,11 +59,13 @@ class Asset: public StaticAsset {
 
 class DynamicAsset: public Asset {
     public:
-        void Update();
-
         Velocity GetVelocity();
+        Velocity GetVelocityNormalized();
 
-        void AddVelocity(double x, double y, double z);
+        // add velocity considers velocity being added 
+        // as vector, so it normalizes new values being added on x and y
+        void AddVelocityNormalized(double x, double y, double z);
+
         void AddXVelocity(double n);
         void AddYVelocity(double n);
         void AddZVelocity(double n);
