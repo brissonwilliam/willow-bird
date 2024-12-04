@@ -6,6 +6,7 @@ struct FPSCounter {
 public:
 	void Inc();
 	double GetFPS();
+	double GetFrameTime();
 private:
 	double lastFpsUpdateTime;
 	int frameCount;
