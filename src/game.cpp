@@ -75,23 +75,7 @@ int Game::Start(GameOptions args) {
         const double maxFpsCap = 500.0;
         auto avgFps = renderer.fpsCounter.GetFPS();
         auto avgFrameTime = renderer.fpsCounter.GetFrameTime(); // in seconds
-        std::cout << "\rFPS: " << avgFps << " frame time: " << avgFrameTime << std::flush;
-
-        /*
-        if (avgFps > maxFpsCap) {
-            double deltaFps = avgFps - maxFpsCap;
-            double timeToSleep = avgFrameTime * deltaFps; // sleep average frame time * delta frames we don't want
-            // std::cout << "\nFPS: " << avgFps << " frame time: " << avgFrameTime << " Time to sleep: " << timeToSleep << " Delta fps: " << deltaFps;
-
-            auto sleepStart = glfwGetTime();
-            auto sleepElapsed = 0;
-            while (sleepElapsed <= timeToSleep) {
-                sleepElapsed = glfwGetTime() - sleepStart;
-                // maybe do something useful?
-            }
-        }
-        */
-
+        std::cout << "\rAvgFPS: " << int(avgFps) << " | AvgFrameTimeMS: " << int(avgFrameTime * 1000) << "              ";
 	}
 
     std::cout << "\nOut of main loop, goodbye!";
