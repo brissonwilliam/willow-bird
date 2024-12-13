@@ -1,4 +1,5 @@
 #include "game.h"
+#include <cmath>
 
 using namespace std;
 
@@ -75,7 +76,7 @@ int Game::Start(GameOptions args) {
         const double maxFpsCap = 500.0;
         auto avgFps = renderer.fpsCounter.GetFPS();
         auto avgFrameTime = renderer.fpsCounter.GetFrameTime(); // in seconds
-        std::cout << "\rAvgFPS: " << int(avgFps) << " | AvgFrameTimeMS: " << int(avgFrameTime * 1000) << "              ";
+        std::cout << "\rAvgFPS: " << int(avgFps) << " | AvgFrameTimeMS: " << std::round(avgFrameTime * 1000 * 100) / 100.0 << "              ";
 	}
 
     std::cout << "\nOut of main loop, goodbye!";

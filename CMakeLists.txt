@@ -1,13 +1,26 @@
 ﻿# CMakeList.txt : CMake project for willow-bird, include source and define
 # project specific logic here.
 #
-cmake_minimum_required (VERSION 3.11)
+cmake_minimum_required (VERSION 3.30)
 
 project ("willow-bird")
 
-# glfw instructions 
+# honnestly idk what this does but it fixes some shit with clang (lsp)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
+# load OpenGL
 find_package(OpenGL REQUIRED)
 
+# load freetype
+find_package(Freetype REQUIRED)
+include_directories(${FREETYPE_INCLUDE_DIRS})
+include_directories(/usr/include/freetype2)
+
+# load glew
+find_package(GLEW REQUIRED)
+include_directories(${GLEW_INCLUDE_DIRS})
+
+# other includes
 include_directories(
 	"lib/glm"
 	"lib/glfw"
@@ -35,7 +48,5 @@ add_executable (willow-bird
 	${src_ui}
 )
 
-# todo: if windows, load .lib instead
-target_link_libraries(willow-bird glfw)
+target_link_libraries(willow-bird glfw OpenGL::GL ${GLEW_LIBRARIES} OpenGL::GL Freetype::Freetype)
 
-target_link_libraries(willow-bird OpenGL::GL)

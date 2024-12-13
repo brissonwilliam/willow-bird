@@ -3,3 +3,4 @@ build/*
 .vs
 CMakeFiles/*
 .vscode
+.cache/

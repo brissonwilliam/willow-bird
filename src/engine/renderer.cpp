@@ -1,4 +1,5 @@
 #include "renderer.h"
+#include <GLES3/gl3.h>
 
 void initGL() {
 	glMatrixMode(GL_PROJECTION);
@@ -41,6 +42,7 @@ void Renderer::RenderFrame() {
 		glVertex2f(0 + pos.x, playerSize + pos.y);
     glEnd();
 	
+    // UI render
 	
 	glfwSwapBuffers(this->window);
 
