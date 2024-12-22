@@ -2,6 +2,7 @@
 #include <map>
 #include <string>
 #include "../../lib/glm/glm.hpp"
+#include "shader.h"
 
 struct Character {
     unsigned int TextureID;  // ID handle of the glyph texture
@@ -16,7 +17,10 @@ public:
     int LoadFont(const char* path, int size);
     void RenderText(std::string text, float x, float y, float scale, glm::vec3 color);
     void Draw(const std::string &s, double x, double y, float h);
+
 private:
+    Shader m_shader;
     std::map<char, Character> m_characters;
-    unsigned int m_vertexArrayObject, m_vertexBufferObject;
+    uint m_vertexArrayObject;
+    uint m_vertexBufferObject;
 };

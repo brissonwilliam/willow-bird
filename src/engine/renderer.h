@@ -1,6 +1,7 @@
 #pragma once
 #include "fps.h"
 #include "state.h"
+#include "text.h"
 #include "../config/options.h"
 
 
@@ -10,15 +11,16 @@ public:
 	void RenderFrame();
 	void SetVsync(bool v);
 
-	GLFWwindow* window;
-
 	FPSCounter fpsCounter;
 
 private:
 	int rPos =0 , gPos=100, bPos=200;
-	int swapInterval = 1;
+	int m_swapInterval = 1;
 
-	GameOptions* opts;
-	GameState* gs;
+	GameOptions* m_opts;
+	GameState* m_gs;
+    TextRenderer m_txtRenderer;
+	GLFWwindow* m_window;
+
 };
 

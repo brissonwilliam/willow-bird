@@ -1,4 +1,5 @@
-#version 330 core
+#version 410 core
+
 in vec2 texCoords;
 out vec4 color;
 
@@ -15,4 +16,5 @@ void main()
     // the resulting pixel will be transparent for all the glyph's background colors and non-transparent for the actual character pixels.
     // We also multiply the RGB colors by the textColor uniform to vary the text color.
     color = vec4(textColor, 0.0) * sampled;
+
 } 

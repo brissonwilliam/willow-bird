@@ -1,4 +1,5 @@
 #include "text.h"
+#include "shader.h"
 #include <GLES3/gl3.h>
 #include <freetype2/ft2build.h>
 #include <iostream>
@@ -8,13 +9,12 @@
 
 
 TextRenderer::TextRenderer() {
+    m_shader = Shader("assets/shaders/text_vertex.glsl", "assets/shaders/text_fragment.glsl");
+
     // some requirements for text to render properly with shaders
     glEnable(GL_CULL_FACE);
-    glEnable(GL_BLEND);
-
+    // glEnable(GL_BLEND);
 }
-
-constexpr int fontSize = 48;
 
 int TextRenderer::LoadFont(const char* filePath, int fontSize) {
     FT_Library ft;
@@ -27,6 +27,8 @@ int TextRenderer::LoadFont(const char* filePath, int fontSize) {
     FT_Face face;
     if (FT_New_Face(ft, filePath, 0, &face)) {
         std::cout << "ERROR::FREETYPE: Failed to load font" << std::endl;  
+        FT_Done_Face(face);
+        FT_Done_FreeType(ft);
         return -1;
     }
 
@@ -58,7 +60,7 @@ int TextRenderer::LoadFont(const char* filePath, int fontSize) {
         // For this reason we'd like to store each byte of the bitmap buffer as the texture's single color value.
         // We accomplish this by creating a texture where each byte corresponds to the texture color's red component (first byte of its color vector).
         // If we use a single byte to represent the colors of a texture we do need to take care of a restriction of OpenGL:
-        unsigned int texture;
+        uint texture;
         glGenTextures(1, &texture);
         glBindTexture(GL_TEXTURE_2D, texture);
         glTexImage2D(
@@ -86,11 +88,14 @@ int TextRenderer::LoadFont(const char* filePath, int fontSize) {
         };
         m_characters.insert(std::pair<char, Character>(c, character));
     }
+
     // OpenGL requires that textures all have a 4-byte alignment e.g. their size is always a multiple of 4 bytes. Normally this won't be a problem since most textures have a width that is a multiple of 4 and/or use 4 bytes per pixel, but since we now only use a single byte per pixel, the texture can have any possible width. By setting its unpack alignment to 1 we ensure there are no alignment issues (which could cause segmentation faults).
 
     // free some free type resources
     FT_Done_Face(face);
     FT_Done_FreeType(ft);
+
+    std::cout << "True type font loaded succesfuly. Characters: " << m_characters.size() << std::endl;
 
     // configure VAO/VBO for texture quads
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -111,22 +116,24 @@ int TextRenderer::LoadFont(const char* filePath, int fontSize) {
     // reset pixel alignment to 4
     glPixelStorei(GL_UNPACK_ALIGNMENT, 4); 
 
+    std::cout << "Font loaded with gl buffers " << filePath << std::endl;
+
     return 0;
 }
 
-void TextRendere::RenderText(std::string text, float x, float y, float scale, glm::vec3 color)
-    // activate corresponding render state	
-    shader.use();
+void TextRenderer::RenderText(std::string text, float x, float y, float scale, glm::vec3 color) {
+    // use the text shader for drawing calls we will make
+    m_shader.use();
 
-    glUniform3f(glGetUniformLocation(shader.ID, "textColor"), color.x, color.y, color.z);
+    glUniform3f(glGetUniformLocation(m_shader.Id, "textColor"), color.x, color.y, color.z);
     glActiveTexture(GL_TEXTURE0);
-    glBindVertexArray(VAO);
+    glBindVertexArray(m_vertexArrayObject);
 
     // iterate through all characters
     std::string::const_iterator c;
     for (c = text.begin(); c != text.end(); c++) 
     {
-        Character ch = Characters[*c];
+        Character ch = m_characters[*c];
 
         float xpos = x + ch.Bearing.x * scale;
         float ypos = y - (ch.Size.y - ch.Bearing.y) * scale;
@@ -146,7 +153,7 @@ void TextRendere::RenderText(std::string text, float x, float y, float scale, gl
         // render glyph texture over quad
         glBindTexture(GL_TEXTURE_2D, ch.TextureID);
         // update content of VBO memory
-        glBindBuffer(GL_ARRAY_BUFFER, VBO);
+        glBindBuffer(GL_ARRAY_BUFFER, m_vertexBufferObject);
         glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices); // be sure to use glBufferSubData and not glBufferData
 
         glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -157,18 +164,4 @@ void TextRendere::RenderText(std::string text, float x, float y, float scale, gl
     }
     glBindVertexArray(0);
     glBindTexture(GL_TEXTURE_2D, 0);
-}
-
-void TextRenderer::Draw(const std::string &s, double x, double y, float h) {
-    int n = (int)s.size();
-    for (char c : s) {
-        if (c == '\n') {
-            --n;
-        }
-    }
-
-     if (n == 0) {
-         return;
-     }
-
 }

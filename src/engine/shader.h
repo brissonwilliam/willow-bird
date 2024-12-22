@@ -3,10 +3,11 @@
 #include <GLES3/gl3.h>
 class Shader {
     public:
-        unsigned int m_programId;
+        Shader();
         Shader(const char* vertexPath, const char* fragmentPath);
+        unsigned int Id;
         void use();
 
     private:
-        int compileShader(GLenum shaderType, const char* sourceCode, GLuint* outShaderId) ;
+        int compileShader(const char* path, GLenum shaderType, GLuint* outShaderId) ;
 };

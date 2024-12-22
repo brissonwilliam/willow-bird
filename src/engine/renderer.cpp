@@ -1,5 +1,6 @@
 #include "renderer.h"
 #include <GLES3/gl3.h>
+#include <string>
 
 void initGL() {
 	glMatrixMode(GL_PROJECTION);
@@ -10,21 +11,24 @@ void initGL() {
 }
 
 Renderer::Renderer(GameOptions* opts, GLFWwindow* window, GameState* gs) {
-	this->opts = opts;
-	this->window = window;
-	this->gs = gs;
+	m_opts = opts;
+	m_window = window;
+	m_gs = gs;
 
 	initGL();
 	SetVsync(opts->vsync);
+
+    m_txtRenderer.LoadFont("assets/IosevkaCustomMono-Regular.ttf", 48);
 }
 
 void Renderer::RenderFrame() {
-	glClear(GL_COLOR_BUFFER_BIT);
 	glClearColor(0.1, 0.1, 0.1, 1.0);
+	glClear(GL_COLOR_BUFFER_BIT);
 
-    auto pos = gs->player.GetPosition();
+    auto pos = m_gs->player.GetPosition();
 
     const GLfloat playerSize = 0.4000;
+    /*
     glBegin(GL_TRIANGLE_FAN); // Start drawing a line primitive  
         glColor3d(1, 1, 1);
 		glVertex2f(0 + pos.x, 0 + pos.y);
@@ -41,10 +45,13 @@ void Renderer::RenderFrame() {
 		glColor3d(0, 1, 0);
 		glVertex2f(0 + pos.x, playerSize + pos.y);
     glEnd();
+    */
 	
     // UI render
+    m_txtRenderer.RenderText(std::string("caliss!"), 25.0f, 25.0f, 1.0, glm::vec3(0.5f, 0.2f, 0.9f));
 	
-	glfwSwapBuffers(this->window);
+    // pipeline done, swap buffers
+	glfwSwapBuffers(this->m_window);
 
 	// update fps
 	fpsCounter.Inc();
