@@ -14,6 +14,7 @@ struct Character {
 class TextRenderer {
 public:
     TextRenderer();
+    TextRenderer(glm::mat4 projection);
     int LoadFont(const char* path, int size);
     void RenderText(std::string text, float x, float y, float scale, glm::vec3 color);
     void Draw(const std::string &s, double x, double y, float h);
@@ -23,7 +24,6 @@ private:
     std::map<char, Character> m_characters;
     uint m_vertexArrayObject;
     uint m_vertexBufferObject;
-    glm::mat4 m_projection;
 
     void allocateGlQuads(); 
 };

@@ -10,13 +10,13 @@
 #include FT_FREETYPE_H
 #include FT_GLYPH_H
 
+TextRenderer::TextRenderer() {}
 
-TextRenderer::TextRenderer() {
+TextRenderer::TextRenderer(glm::mat4 projection) {
     m_shader = Shader("assets/shaders/text_vertex.glsl", "assets/shaders/text_fragment.glsl");
 
-    m_projection = glm::ortho(0.0f, 800.0f, 0.0f, 600.0f);
     m_shader.use();
-    glUniformMatrix4fv(glGetUniformLocation(m_shader.Id, "projection"), 1, GL_FALSE, glm::value_ptr(m_projection));
+    glUniformMatrix4fv(glGetUniformLocation(m_shader.Id, "projection"), 1, GL_FALSE, glm::value_ptr(projection));
 }
 
 int TextRenderer::LoadFont(const char* filePath, int fontSize) {

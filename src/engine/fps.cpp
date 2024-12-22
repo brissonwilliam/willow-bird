@@ -1,4 +1,5 @@
 #include "fps.h"
+#include <cmath>
 
 void FPSCounter::Inc() {
 	double currentTime = glfwGetTime(); // time in seconds (float)
@@ -19,6 +20,7 @@ double FPSCounter::GetFPS() {
 	return this->fps;
 }
 
-double FPSCounter::GetFrameTime() {
-	return 1.0 / this->fps;
+double FPSCounter::GetFrameTimeMS() {
+	double frameTimeSecs =  1.0 / this->fps;
+    return std::round(frameTimeSecs * 1000 * 100) / 100.0;
 }

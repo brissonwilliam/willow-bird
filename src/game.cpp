@@ -7,6 +7,19 @@ void error_callback(int error, const char* description) {
 	fprintf(stderr, "Error: %s\n", description);
 }
 
+void initGL() {
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+
+    // for font text rendering
+    glEnable(GL_CULL_FACE);
+    glEnable(GL_BLEND);
+}
+
+
 int Game::Start(GameOptions args) {
 	// init gl
 	if (!glfwInit()) {
@@ -18,18 +31,27 @@ int Game::Start(GameOptions args) {
 	glfwSetErrorCallback(error_callback);
 
 	// init window
-	Window w = Window(&args);
-	int createResult = w.Create("my game yahoo!", WINDOW_WINDOWED);
-	if (createResult < 0) {
-		return createResult;
+    // GLFWmonitor* fullscreenWindow = glfwGetPrimaryMonitor();
+    GLFWmonitor* windowType = NULL;
+    const char* title = "my game yahoo!";
+	GLFWwindow* glWindow = glfwCreateWindow(args.width, args.height, title, windowType, NULL);
+	if (glWindow == NULL) {
+		std::cout << "Could not init window\n";
+		return -1;
 	}
-	auto glWindow = w.glWindow;
+	glfwMakeContextCurrent(glWindow);
 
 	glfwSetKeyCallback(glWindow, InputState::KeyCallback);
 
 	// init renderer and game state
+    initGL();
+
 	GameState gs = GameState(glWindow);
-	Renderer renderer = Renderer(&args, glWindow, &gs);
+
+    UI ui = UI(glWindow);
+
+	Renderer renderer = Renderer(glWindow, gs, ui);
+    renderer.SetVsync(args.vsync);
 
 	// main game loop
 	// inspired by: https://gameprogrammingpatterns.com/game-loop.html
@@ -74,15 +96,12 @@ int Game::Start(GameOptions args) {
         */
 
         const double maxFpsCap = 500.0;
-        auto avgFps = renderer.fpsCounter.GetFPS();
-        auto avgFrameTime = renderer.fpsCounter.GetFrameTime(); // in seconds
-        std::cout << "\rAvgFPS: " << int(avgFps) << " | AvgFrameTimeMS: " << std::round(avgFrameTime * 1000 * 100) / 100.0 << "              ";
 	}
 
     std::cout << "\nOut of main loop, goodbye!";
 
 	// terminate cleanly
-	glfwDestroyWindow(w.glWindow);	
+	glfwDestroyWindow(glWindow);	
 	glfwTerminate();
 
 	return 0;
