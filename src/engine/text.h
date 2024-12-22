@@ -1,7 +1,7 @@
 #pragma once
 #include <map>
 #include <string>
-#include "../../lib/glm/glm.hpp"
+#include <glm/glm.hpp>
 #include "shader.h"
 
 struct Character {
@@ -23,4 +23,7 @@ private:
     std::map<char, Character> m_characters;
     uint m_vertexArrayObject;
     uint m_vertexBufferObject;
+    glm::mat4 m_projection;
+
+    void allocateGlQuads(); 
 };

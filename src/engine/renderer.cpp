@@ -1,6 +1,6 @@
 #include "renderer.h"
 #include <GLES3/gl3.h>
-#include <string>
+#include <GL/gl.h>
 
 void initGL() {
 	glMatrixMode(GL_PROJECTION);
@@ -8,6 +8,10 @@ void initGL() {
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
+
+    // for font text rendering
+    glEnable(GL_CULL_FACE);
+    glEnable(GL_BLEND);
 }
 
 Renderer::Renderer(GameOptions* opts, GLFWwindow* window, GameState* gs) {
@@ -28,27 +32,26 @@ void Renderer::RenderFrame() {
     auto pos = m_gs->player.GetPosition();
 
     const GLfloat playerSize = 0.4000;
-    /*
-    glBegin(GL_TRIANGLE_FAN); // Start drawing a line primitive  
-        glColor3d(1, 1, 1);
-		glVertex2f(0 + pos.x, 0 + pos.y);
 
-		glColor3d(0, 1, 0);
-		glVertex2f(0 + pos.x, playerSize + pos.y);
-
-		glColor3d(1, 0, 0);
-		glVertex2f(-playerSize + pos.x, -playerSize + pos.y);
-
-		glColor3d(0, 0, 1);
-		glVertex2f(playerSize + pos.x, -playerSize + pos.y);
-
-		glColor3d(0, 1, 0);
-		glVertex2f(0 + pos.x, playerSize + pos.y);
-    glEnd();
-    */
+//     glBegin(GL_TRIANGLE_FAN); // Start drawing a line primitive  
+//         glColor3d(1, 1, 1);
+// 		glVertex2f(0 + pos.x, 0 + pos.y);
+// 
+// 		glColor3d(0, 1, 0);
+// 		glVertex2f(0 + pos.x, playerSize + pos.y);
+// 
+// 		glColor3d(1, 0, 0);
+// 		glVertex2f(-playerSize + pos.x, -playerSize + pos.y);
+// 
+// 		glColor3d(0, 0, 1);
+// 		glVertex2f(playerSize + pos.x, -playerSize + pos.y);
+// 
+// 		glColor3d(0, 1, 0);
+// 		glVertex2f(0 + pos.x, playerSize + pos.y);
+//     glEnd();
 	
     // UI render
-    m_txtRenderer.RenderText(std::string("caliss!"), 25.0f, 25.0f, 1.0, glm::vec3(0.5f, 0.2f, 0.9f));
+    m_txtRenderer.RenderText("caliss ahhhhh!", 25.0f, 25.0f, 0.75, glm::vec3(0.5f, 0.2f, 0.9f));
 	
     // pipeline done, swap buffers
 	glfwSwapBuffers(this->m_window);

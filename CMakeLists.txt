@@ -20,16 +20,19 @@ include_directories(/usr/include/freetype2)
 find_package(GLEW REQUIRED)
 include_directories(${GLEW_INCLUDE_DIRS})
 
-# other includes
-include_directories(
-	"lib/glm"
-	"lib/glfw"
-)
+# load glm
+find_package(glm REQUIRED)
 
-link_directories(
-	"lib/glfw"
-	"lib/assimp"
-)
+# other includes
+# include_directories(
+# 	"lib/glm"
+# 	"lib/glfw"
+# )
+# 
+# link_directories(
+# 	"lib/glfw"
+# 	"lib/assimp"
+# )
 
 # Add source to this project's executable.
 file(GLOB src_assets CONFIGURE_DEPENDS "src/assets/*.h" "src/assets/*.cpp")
@@ -48,5 +51,5 @@ add_executable (willow-bird
 	${src_ui}
 )
 
-target_link_libraries(willow-bird glfw OpenGL::GL ${GLEW_LIBRARIES} OpenGL::GL Freetype::Freetype)
+target_link_libraries(willow-bird glfw OpenGL::GL ${GLEW_LIBRARIES} OpenGL::GL Freetype::Freetype glm::glm)
 

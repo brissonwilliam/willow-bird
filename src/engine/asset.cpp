@@ -1,5 +1,5 @@
 #include "asset.h"
-#include "../../lib/glm/glm.hpp"
+#include <glm/glm.hpp>
 
 Position StaticAsset::GetPosition() {
     return this->att.pos;

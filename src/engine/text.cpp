@@ -4,6 +4,9 @@
 #include <freetype2/ft2build.h>
 #include <iostream>
 #include <ostream>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 #include FT_FREETYPE_H
 #include FT_GLYPH_H
 
@@ -11,9 +14,9 @@
 TextRenderer::TextRenderer() {
     m_shader = Shader("assets/shaders/text_vertex.glsl", "assets/shaders/text_fragment.glsl");
 
-    // some requirements for text to render properly with shaders
-    glEnable(GL_CULL_FACE);
-    // glEnable(GL_BLEND);
+    m_projection = glm::ortho(0.0f, 800.0f, 0.0f, 600.0f);
+    m_shader.use();
+    glUniformMatrix4fv(glGetUniformLocation(m_shader.Id, "projection"), 1, GL_FALSE, glm::value_ptr(m_projection));
 }
 
 int TextRenderer::LoadFont(const char* filePath, int fontSize) {
@@ -88,6 +91,7 @@ int TextRenderer::LoadFont(const char* filePath, int fontSize) {
         };
         m_characters.insert(std::pair<char, Character>(c, character));
     }
+    glBindTexture(GL_TEXTURE_2D, 0);
 
     // OpenGL requires that textures all have a 4-byte alignment e.g. their size is always a multiple of 4 bytes. Normally this won't be a problem since most textures have a width that is a multiple of 4 and/or use 4 bytes per pixel, but since we now only use a single byte per pixel, the texture can have any possible width. By setting its unpack alignment to 1 we ensure there are no alignment issues (which could cause segmentation faults).
 
@@ -95,14 +99,21 @@ int TextRenderer::LoadFont(const char* filePath, int fontSize) {
     FT_Done_Face(face);
     FT_Done_FreeType(ft);
 
+    allocateGlQuads();
+
     std::cout << "True type font loaded succesfuly. Characters: " << m_characters.size() << std::endl;
 
+    return 0;
+}
+
+void TextRenderer::allocateGlQuads() {
     // configure VAO/VBO for texture quads
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     glGenVertexArrays(1, &m_vertexArrayObject);
-    glGenBuffers(1, &m_vertexBufferObject);
     glBindVertexArray(m_vertexArrayObject);
+
+    glGenBuffers(1, &m_vertexBufferObject);
     glBindBuffer(GL_ARRAY_BUFFER, m_vertexBufferObject);
 
     // The 2D quad requires 6 vertices of 4 floats each, so we reserve 6 * 4 floats of memory. Because we'll be updating the content of the VBO's memory quite often we'll allocate the memory with GL_DYNAMIC_DRAW.
@@ -110,15 +121,10 @@ int TextRenderer::LoadFont(const char* filePath, int fontSize) {
 
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), 0);
+
+    // reset some defaults
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
-
-    // reset pixel alignment to 4
-    glPixelStorei(GL_UNPACK_ALIGNMENT, 4); 
-
-    std::cout << "Font loaded with gl buffers " << filePath << std::endl;
-
-    return 0;
 }
 
 void TextRenderer::RenderText(std::string text, float x, float y, float scale, glm::vec3 color) {
@@ -162,6 +168,7 @@ void TextRenderer::RenderText(std::string text, float x, float y, float scale, g
         // now advance cursors for next glyph (note that advance is number of 1/64 pixels)
         x += (ch.Advance >> 6) * scale; // bitshift by 6 to get value in pixels (2^6 = 64 (divide amount of 1/64th pixels by 64 to get amount of pixels))
     }
+
     glBindVertexArray(0);
     glBindTexture(GL_TEXTURE_2D, 0);
 }
