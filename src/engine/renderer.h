@@ -12,6 +12,7 @@ public:
     };
 	void RenderFrame();
 	void SetVsync(bool v);
+	void ToggleWireframe();
 
 	FPSCounter fpsCounter;
 
@@ -23,6 +24,7 @@ private:
     TextRenderer m_txtRenderer;
     UI m_ui;
 	GLFWwindow* m_window;
+    bool isWireframeOn = false;
 
 };
 

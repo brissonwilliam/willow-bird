@@ -3,6 +3,8 @@
 
 GameState::GameState(GLFWwindow* window){
     this->window = window;
+    this->player.Load();
+    std::cout << "GameState loaded" << std::endl;
 }
 
 void GameState::ProcessInputs(std::vector<INPUT_ACTION> inputs) {

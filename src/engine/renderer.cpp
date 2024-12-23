@@ -10,23 +10,8 @@ void Renderer::RenderFrame() {
 
     const GLfloat playerSize = 0.4000;
 
-    glBegin(GL_TRIANGLE_FAN); // Start drawing a line primitive  
-    glColor3d(1, 1, 1);
-    glVertex2f(0 + pos.x, 0 + pos.y);
-    
-    glColor3d(0, 1, 0);
-    glVertex2f(0 + pos.x, playerSize + pos.y);
-    
-    glColor3d(1, 0, 0);
-    glVertex2f(-playerSize + pos.x, -playerSize + pos.y);
-    
-    glColor3d(0, 0, 1);
-    glVertex2f(playerSize + pos.x, -playerSize + pos.y);
-    
-    glColor3d(0, 1, 0);
-    glVertex2f(0 + pos.x, playerSize + pos.y);
-    glEnd();
-	
+    m_gs.player.Render();
+
     // UI render
     m_ui.Render();
     m_ui.RenderFPS(fpsCounter);
@@ -40,4 +25,12 @@ void Renderer::RenderFrame() {
 
 void Renderer::SetVsync(bool enable) {
 	glfwSwapInterval(enable ? 1: 0);
+}
+
+void Renderer::ToggleWireframe() {
+    if (isWireframeOn) {
+        glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
+    } else {
+        glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
+    }
 }

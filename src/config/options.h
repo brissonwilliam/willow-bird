@@ -2,8 +2,8 @@
 #pragma once
 
 struct GameOptions {
-	int width;
-	int height;
+	int width = 1280;
+	int height = 720;
 	int monitor;
-	bool vsync;
+	bool vsync = true;
 };

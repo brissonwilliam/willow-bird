@@ -22,5 +22,6 @@ double FPSCounter::GetFPS() {
 
 double FPSCounter::GetFrameTimeMS() {
 	double frameTimeSecs =  1.0 / this->fps;
-    return std::round(frameTimeSecs * 1000 * 100) / 100.0;
+    return std::round(frameTimeSecs * 1000.0 * 100.0) / 100.0;
+
 }
